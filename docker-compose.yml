@@ -18,10 +18,11 @@ services:
 
   class-organiser:
     depends_on:
-      - class-organizer-db
-    image: class-organizer:0.0.1
-    container_name: class-organizer
+      - class-organiser-db
+    image: class-organiser:0.0.1
+    container_name: class-organiser
     hostname: class-organiser
+    platform: linux/amd64
     networks:
       - proxy
       - default
