@@ -9,11 +9,11 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.um5.iwam.g12</groupId>
-    <artifactId>ChatAppServer</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
-    <name>ChatAppServer</name>
-    <description>ChatAppServer</description>
+    <artifactId>class-organiser</artifactId>
+    <version>0.0.1</version>
+    <packaging>jar</packaging>
+    <name>Class organiser</name>
+    <description>class-organiser</description>
     <properties>
         <java.version>17</java.version>
     </properties>

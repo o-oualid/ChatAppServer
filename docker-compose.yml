@@ -1,12 +1,12 @@
 version: '3'
 
 services:
-  class-organizer-db:
+  class-organiser-db:
     image: mariadb:latest
-    container_name: class-organizer-db
-    hostname: class-organizer-db
+    container_name: class-organiser-db
+    hostname: class-organiser-db
     volumes:
-      - class-organizer-db-data:/var/lib/mysql
+      - class-organiser-db-data:/var/lib/mysql
     networks:
       - default
     restart: always
@@ -16,23 +16,21 @@ services:
       MYSQL_USER: dbuser
       MYSQL_PASSWORD: dbpassword
 
-  class-organizer:
+  class-organiser:
     depends_on:
       - class-organizer-db
-    image: nextcloud:latest
+    image: class-organizer:0.0.1
     container_name: class-organizer
-    hostname: class_organizer
+    hostname: class-organiser
     networks:
       - proxy
       - default
     restart: always
-    #       ports:
-    #            - 9443:80
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nextcloud.entrypoints=websecure"
-      - "traefik.http.routers.nextcloud.rule=Host(`class_organizer.oualid.games`)"
-      - "traefik.http.services.nextcloud.loadbalancer.server.port=8080"
+      - "traefik.http.routers.class-organiser.entrypoints=websecure"
+      - "traefik.http.routers.class-organiser.rule=Host(`class-organiser.oualid.games`)"
+      - "traefik.http.services.class-organiser.loadbalancer.server.port=8080"
       - "traefik.docker.network=proxy"
 
     environment:
@@ -46,4 +44,4 @@ networks:
     external: true
 
 volumes:
-  class-organizer-db-data:
+  class-organiser-db-data:
