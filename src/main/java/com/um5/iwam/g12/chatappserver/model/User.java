@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -11,19 +12,42 @@ import java.util.List;
 public class User {
     @Id
     @GeneratedValue
-    Long id;
+    private Long id;
     @NotBlank(message = "First name is required")
-    String firstName;
+    @Column(length = 45)
+    private String firstName;
     @NotBlank(message = "Last name is required")
-    String lastName;
-    String roles;
-    @Email(message = "Email should be valid")
-    String email;
-    @NotBlank(message = "Password is required")
-    String password;
+    @Column(length = 45)
+    private String lastName;
 
-    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "students")
-    List<Classroom> classrooms;
+    @Column(length = 100)
+    private String handle;
+
+    @Email(message = "Email should be valid")
+    @Column(unique = true, length = 100)
+    String email;
+    boolean isEmailVerified;
+
+    @NotBlank(message = "Password is required")
+    @Column(length = 70)
+    private String password;
+
+    @Enumerated(EnumType.ORDINAL)
+    private UserType type;
+
+    private Date createdAt;
+
+    @Column(length = 100)
+    private String profilePicture;
+
+    @Column(length = 100)
+    private String BackgroundPicture;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender")
+    private List<Post> posts;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<UserClassroom> userClassrooms;
 
     public User() {
 
@@ -33,7 +57,6 @@ public class User {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.roles = roles;
         this.password = password;
     }
 
@@ -70,14 +93,6 @@ public class User {
         this.email = email;
     }
 
-    public String getRoles() {
-        return roles;
-    }
-
-    public void setRoles(String roles) {
-        this.roles = roles;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -86,14 +101,73 @@ public class User {
         this.password = password;
     }
 
+    public String getHandle() {
+        return handle;
+    }
+
+    public void setHandle(String handle) {
+        this.handle = handle;
+    }
+
+    public boolean isEmailVerified() {
+        return isEmailVerified;
+    }
+
+    public void setEmailVerified(boolean emailVerified) {
+        isEmailVerified = emailVerified;
+    }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public String getProfilePicture() {
+        return profilePicture;
+    }
+
+    public void setProfilePicture(String profilePicture) {
+        this.profilePicture = profilePicture;
+    }
+
+    public String getBackgroundPicture() {
+        return BackgroundPicture;
+    }
+
+    public void setBackgroundPicture(String backgroundPicture) {
+        BackgroundPicture = backgroundPicture;
+    }
+
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", roles='" + roles + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+        return "User{" + "id=" + id + ", firstName='" + firstName + '\'' + ", lastName='" + lastName + '\'' + ", handle='" + handle + '\'' + ", email='" + email + '\'' + ", isEmailVerified=" + isEmailVerified + ", type='" + type + '\'' + ", createdAt=" + createdAt + ", profilePicture='" + profilePicture + '\'' + ", BackgroundPicture='" + BackgroundPicture + '\'' + '}';
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
+
+    public List<UserClassroom> getUserClassrooms() {
+        return userClassrooms;
+    }
+
+    public void setUserClassrooms(List<UserClassroom> userClassrooms) {
+        this.userClassrooms = userClassrooms;
     }
 }
+

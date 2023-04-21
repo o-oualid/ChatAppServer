@@ -2,8 +2,8 @@ package com.um5.iwam.g12.chatappserver.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -12,31 +12,38 @@ public class Classroom {
 
     @Id
     @GeneratedValue
-    long id;
+    private long id;
 
     @NotBlank
-    String name;
+    @Column(length = 100)
+    private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @NotNull
-    User teacher;
+    @Column(length = 300)
+    private String subtitle;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    List<User> students;
+    @Column(length = 1000)
+    private String description;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "classRoom")
-    List<Post> posts;
+    @Column(length = 100)
+    private String backgroundPicture;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "classRoom")
-    List<Assignment> assignments;
+    private Date createdAt;
+
+    private Date updatedAt;
+
+    @OneToMany(fetch = FetchType.LAZY,mappedBy = "classroom")
+    private List<UserClassroom> userClassrooms;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")
+    private List<Post> posts;
+
 
     public Classroom() {
     }
 
-    public Classroom(String name, User teacher, List<User> students) {
+    public Classroom(long id, String name) {
+        this.id = id;
         this.name = name;
-        this.teacher = teacher;
-        this.students = students;
     }
 
     public long getId() {
@@ -55,20 +62,44 @@ public class Classroom {
         this.name = name;
     }
 
-    public User getTeacher() {
-        return teacher;
+    public String getSubtitle() {
+        return subtitle;
     }
 
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
-    public List<User> getStudents() {
-        return students;
+    public String getDescription() {
+        return description;
     }
 
-    public void setStudents(List<User> students) {
-        this.students = students;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getBackgroundPicture() {
+        return backgroundPicture;
+    }
+
+    public void setBackgroundPicture(String backgroundPicture) {
+        this.backgroundPicture = backgroundPicture;
+    }
+
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Date getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public List<Post> getPosts() {
@@ -79,11 +110,11 @@ public class Classroom {
         this.posts = posts;
     }
 
-    public List<Assignment> getAssignments() {
-        return assignments;
+    public List<UserClassroom> getUserClassrooms() {
+        return userClassrooms;
     }
 
-    public void setAssignments(List<Assignment> assignments) {
-        this.assignments = assignments;
+    public void setUserClassrooms(List<UserClassroom> userClassrooms) {
+        this.userClassrooms = userClassrooms;
     }
 }

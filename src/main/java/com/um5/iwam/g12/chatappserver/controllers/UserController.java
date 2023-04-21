@@ -4,16 +4,19 @@ import com.um5.iwam.g12.chatappserver.model.User;
 import com.um5.iwam.g12.chatappserver.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
 
-    UserRepository repository;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserRepository repository;
 
-    public UserController(UserRepository repository) {
+    public UserController(UserRepository repository, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.repository = repository;
+        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     @GetMapping
@@ -29,6 +32,7 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     public User create(@Valid @RequestBody User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         return repository.save(user);
     }
 
@@ -37,7 +41,7 @@ public class UserController {
     public void update(@RequestBody User user, @PathVariable Long id) {
     }
 
-   @DeleteMapping("/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         repository.deleteById(id);
     }

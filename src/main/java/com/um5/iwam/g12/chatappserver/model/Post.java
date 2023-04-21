@@ -14,31 +14,39 @@ public class Post {
     @GeneratedValue
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User sender;
+    @NotBlank
+    private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Classroom classRoom;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "post")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User sender;
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Comment> comments;
 
-    @NotBlank
-    private String content;
+    private Date createdAt;
 
-    private Date dateCreated;
+    private Date updatedAt;
 
-    private Date dateUpdated;
+    private boolean isPinned;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Classroom classroom;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
+    private List<PostAttachment> attachments;
 
 
     public Post() {
+        super();
     }
 
     public Post(User sender, Classroom classRoom, List<Comment> comments, String content) {
         this.sender = sender;
         this.classRoom = classRoom;
         this.content = content;
-        dateCreated = new Date(System.currentTimeMillis());
     }
 
     public void setId(Long id) {
@@ -81,19 +89,44 @@ public class Post {
         this.content = content;
     }
 
-    public Date getDateCreated() {
-        return dateCreated;
+    public Date getCreatedAt() {
+        return createdAt;
     }
 
-    public void setDateCreated(Date dateCreated) {
-        this.dateCreated = dateCreated;
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public Date getDateUpdated() {
-        return dateUpdated;
+    public Date getUpdatedAt() {
+        return updatedAt;
     }
 
-    public void setDateUpdated(Date dateUpdated) {
-        this.dateUpdated = dateUpdated;
+    public void setUpdatedAt(Date updatedAt) {
+        this.updatedAt = updatedAt;
     }
+
+    public boolean isPinned() {
+        return isPinned;
+    }
+
+    public void setPinned(boolean pinned) {
+        isPinned = pinned;
+    }
+
+    public Classroom getClassroom() {
+        return classroom;
+    }
+
+    public void setClassroom(Classroom classroom) {
+        this.classroom = classroom;
+    }
+
+    public List<PostAttachment> getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(List<PostAttachment> attachments) {
+        this.attachments = attachments;
+    }
+
 }

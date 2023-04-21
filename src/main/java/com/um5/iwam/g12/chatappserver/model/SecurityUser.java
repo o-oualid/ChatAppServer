@@ -1,10 +1,9 @@
 package com.um5.iwam.g12.chatappserver.model;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class SecurityUser implements UserDetails {
@@ -27,7 +26,8 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new).toList();
+       //TODO: fix this
+        return new ArrayList<>();//Arrays.stream(user.getRoles().split(",")).map(SimpleGrantedAuthority::new).toList();
     }
 
     @Override
@@ -48,5 +48,9 @@ public class SecurityUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getUser() {
+        return user;
     }
 }
