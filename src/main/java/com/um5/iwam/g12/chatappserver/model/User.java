@@ -25,8 +25,8 @@ public class User {
 
     @Email(message = "Email should be valid")
     @Column(unique = true, length = 100)
-    String email;
-    boolean isEmailVerified;
+    private String email;
+    private boolean isEmailVerified;
 
     @NotBlank(message = "Password is required")
     @Column(length = 70)

@@ -1,9 +1,11 @@
 package com.um5.iwam.g12.chatappserver.controllers;
 
+import com.um5.iwam.g12.chatappserver.dto.UserDto;
 import com.um5.iwam.g12.chatappserver.model.User;
 import com.um5.iwam.g12.chatappserver.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +19,14 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public User findById(@PathVariable("id") long id) {
-        var user = service.findById(id);
-        if (user.isEmpty()) {
-            throw new RuntimeException("User not found");
-        }
-        return user.get();
+    public ResponseEntity<UserDto> findById(@PathVariable("id") long id) {
+        return ResponseEntity.ofNullable(service.findById(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public User create(@Valid @RequestBody User user) {
-        return service.save(user);
+    public ResponseEntity<UserDto> create(@Valid @RequestBody User user) {
+        return ResponseEntity.ok(service.save(user));
     }
 
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -43,5 +41,6 @@ public class UserController {
     public void delete(@PathVariable Long id) {
         service.deleteById(id);
     }
+
 
 }
