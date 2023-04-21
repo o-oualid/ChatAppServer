@@ -14,6 +14,13 @@ public class UserClassroomKey implements Serializable {
     @Column
     public Long classroomId;
 
+    public UserClassroomKey() {
+    }
+
+    public UserClassroomKey(Long userId, Long classroomId) {
+        this.userId = userId;
+        this.classroomId = classroomId;
+    }
 
     public Long getUserId() {
         return userId;

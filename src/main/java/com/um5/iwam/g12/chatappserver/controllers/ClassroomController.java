@@ -23,17 +23,19 @@ public class ClassroomController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
     public ResponseEntity<ClassDto> create(@RequestBody ClassDto classroom) {
         return ResponseEntity.ok(service.save(classroom));
     }
 
     @PutMapping("/{id}")
-
+    @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
     public ResponseEntity<ClassDto> update(@RequestBody ClassDto classroom, @PathVariable long id) {
         return ResponseEntity.ok(service.update(classroom));
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
