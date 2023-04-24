@@ -9,7 +9,9 @@ import com.um5.iwam.g12.chatappserver.repository.ClassroomRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Service
 public class ClassroomService {
@@ -49,6 +51,13 @@ public class ClassroomService {
     }
 
     public void join(String email, long classroomId) {
-        userClassRoomService.joinClassroom(email,classroomId);
+        userClassRoomService.joinClassroom(email, classroomId);
+    }
+
+    public List<ClassDto> findByUser(String email) {
+        var user = userClassRoomService.findByEmail(email);
+        return user.map(value -> StreamSupport.stream(repository.findClassroomsByUserClassrooms_User_Id(value.getId()).spliterator(), false)
+                .map(classroom -> modelMapper.map(classroom, ClassDto.class)).toList()).orElse(null);
+
     }
 }

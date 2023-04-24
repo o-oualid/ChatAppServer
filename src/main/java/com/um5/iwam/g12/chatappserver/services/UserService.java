@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 @Service
 public class UserService {
@@ -51,7 +52,7 @@ public class UserService {
     }
 
     public List<UserDto> findAllByClassroom(long classroomId) {
-        return repository.findAllByUserClassrooms_Classroom_Id(classroomId)
-                .stream().map(user -> modelMapper.map(user, UserDto.class)).toList();
+        return StreamSupport.stream(repository.findUsersByUserClassrooms_Classroom_Id(classroomId).spliterator(), false)
+                .map(user -> modelMapper.map(user, UserDto.class)).toList();
     }
 }

@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.List;
 
 @RestController
 @RequestMapping("/classrooms")
@@ -56,5 +57,10 @@ public class ClassroomController {
     public ResponseEntity<Void> join(Principal principal, @PathVariable long id) {
         service.join(principal.getName(), id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<List<ClassDto>> findByUser(Principal principal) {
+        return ResponseEntity.ok(service.findByUser(principal.getName()));
     }
 }

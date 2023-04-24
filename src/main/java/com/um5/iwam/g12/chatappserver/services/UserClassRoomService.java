@@ -5,6 +5,8 @@ import com.um5.iwam.g12.chatappserver.repository.UserClassRoomRepository;
 import com.um5.iwam.g12.chatappserver.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class UserClassRoomService {
     private final UserClassRoomRepository userClassRoomRepository;
@@ -27,9 +29,6 @@ public class UserClassRoomService {
         return userClassRoomRepository.findById(new UserClassroomKey(id, classRoomId)).isPresent();
     }
 
-    public boolean isTeacherOfClassroom(Long classRoomId, Long id) {
-        return userClassRoomRepository.findByIdAndRole(new UserClassroomKey(id, classRoomId), UserRole.TEACHER).isPresent();
-    }
 
     public boolean hasRole(Long classRoomId, Long id, UserRole role) {
         return userClassRoomRepository.findByIdAndRole(new UserClassroomKey(id, classRoomId), role).isPresent();
@@ -44,5 +43,9 @@ public class UserClassRoomService {
             userClassroom.setStatus(Status.ACTIVE);
             userClassRoomRepository.save(userClassroom);
         });
+    }
+
+    public Optional<User> findByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 }

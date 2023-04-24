@@ -12,4 +12,5 @@ public interface UserClassRoomRepository extends CrudRepository<UserClassroom, U
 
     Optional<UserClassroom> findByIdAndRole(UserClassroomKey userClassroomKey, UserRole role);
     Optional<UserClassroom> findByIdAndStatus(UserClassroomKey userClassroomKey, Status status);
+
 }
