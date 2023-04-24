@@ -45,7 +45,7 @@ public class ClassroomController {
     }
 
     @PostMapping("/invite")
-    @PreAuthorize("@classroomSecurityService.isTeacher(#id)")
+    @PreAuthorize("@classroomSecurityService.isTeacher(#invite.classroomId)")
     public ResponseEntity<Void> invite(@RequestBody InviteDto invite) {
         service.inviteUser(invite.getUserEmail(), invite.getClassroomId());
         return ResponseEntity.noContent().build();
