@@ -1,5 +1,6 @@
 package com.um5.iwam.g12.chatappserver.services.security;
 
+import com.um5.iwam.g12.chatappserver.model.UserRole;
 import com.um5.iwam.g12.chatappserver.services.UserClassRoomService;
 import com.um5.iwam.g12.chatappserver.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -25,10 +26,11 @@ public class ClassroomSecurityService {
         return userClassRoomService.isMemberOfClassroom(classRoomId, user.get().getId());
     }
 
-    public boolean isTeacher(Long classRoomId) {
+    public boolean hasRole(Long classRoomId, UserRole role) {
         this.authentication = SecurityContextHolder.getContext().getAuthentication();
         var user = userService.findByEmail(authentication.getName());
         if (user.isEmpty()) return false;
-        return userClassRoomService.isTeacherOfClassroom(classRoomId, user.get().getId());
+        return userClassRoomService.hasRole(classRoomId, user.get().getId(), role);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.um5.iwam.g12.chatappserver.repository;
 
+import com.um5.iwam.g12.chatappserver.model.Status;
 import com.um5.iwam.g12.chatappserver.model.UserClassroom;
 import com.um5.iwam.g12.chatappserver.model.UserClassroomKey;
 import com.um5.iwam.g12.chatappserver.model.UserRole;
@@ -10,4 +11,5 @@ import java.util.Optional;
 public interface UserClassRoomRepository extends CrudRepository<UserClassroom, UserClassroomKey> {
 
     Optional<UserClassroom> findByIdAndRole(UserClassroomKey userClassroomKey, UserRole role);
+    Optional<UserClassroom> findByIdAndStatus(UserClassroomKey userClassroomKey, Status status);
 }

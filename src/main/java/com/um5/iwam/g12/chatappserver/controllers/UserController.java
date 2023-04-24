@@ -20,7 +20,6 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    @PreAuthorize("@userSecurityService.is(#id)")
     public ResponseEntity<UserDto> findById(@PathVariable("id") long id) {
         return ResponseEntity.ofNullable(service.findById(id));
     }

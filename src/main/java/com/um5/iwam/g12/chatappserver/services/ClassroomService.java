@@ -47,4 +47,8 @@ public class ClassroomService {
     public void inviteUser(String userEmail, long classroomId) {
         repository.findById(classroomId).ifPresent(classroom -> userClassRoomService.AddUser(classroom, userEmail, UserRole.STUDENT, Status.INVITED));
     }
+
+    public void join(String email, long classroomId) {
+        userClassRoomService.joinClassroom(email,classroomId);
+    }
 }

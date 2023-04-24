@@ -30,4 +30,19 @@ public class UserClassRoomService {
     public boolean isTeacherOfClassroom(Long classRoomId, Long id) {
         return userClassRoomRepository.findByIdAndRole(new UserClassroomKey(id, classRoomId), UserRole.TEACHER).isPresent();
     }
+
+    public boolean hasRole(Long classRoomId, Long id, UserRole role) {
+        return userClassRoomRepository.findByIdAndRole(new UserClassroomKey(id, classRoomId), role).isPresent();
+    }
+
+    public void joinClassroom(String email, long classroomId) {
+        userRepository.findByEmail(email).ifPresent(user -> joinClassroom(user, classroomId));
+    }
+
+    private void joinClassroom(User user, long classroomId) {
+        userClassRoomRepository.findByIdAndStatus(new UserClassroomKey(user.getId(), classroomId), Status.INVITED).ifPresent(userClassroom -> {
+            userClassroom.setStatus(Status.ACTIVE);
+            userClassRoomRepository.save(userClassroom);
+        });
+    }
 }
