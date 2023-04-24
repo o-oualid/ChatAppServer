@@ -32,20 +32,20 @@ public class ClassroomController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
+    @PreAuthorize("@classroomSecurityService.isTeacher(#id)")
     public ResponseEntity<ClassDto> update(@RequestBody ClassDto classroom, @PathVariable long id) {
         return ResponseEntity.ok(service.update(classroom));
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
+    @PreAuthorize("@classroomSecurityService.isTeacher(#id)")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
-    @PostMapping("/invite/{classroomId}")
-    @PreAuthorize("@classroomSecurityService.isTeacher(#invite.classroomId)")
+    @PostMapping("/invite")
+    @PreAuthorize("@classroomSecurityService.isTeacher(#id)")
     public ResponseEntity<Void> invite(@RequestBody InviteDto invite) {
         service.inviteUser(invite.getUserEmail(), invite.getClassroomId());
         return ResponseEntity.noContent().build();
