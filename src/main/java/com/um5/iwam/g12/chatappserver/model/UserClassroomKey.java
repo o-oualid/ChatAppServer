@@ -1,6 +1,5 @@
 package com.um5.iwam.g12.chatappserver.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 import java.io.Serializable;
@@ -8,11 +7,9 @@ import java.util.Objects;
 
 @Embeddable
 public class UserClassroomKey implements Serializable {
-    @Column
-    public Long userId;
+    private Long userId;
 
-    @Column
-    public Long classroomId;
+    private Long classroomId;
 
     public UserClassroomKey() {
     }

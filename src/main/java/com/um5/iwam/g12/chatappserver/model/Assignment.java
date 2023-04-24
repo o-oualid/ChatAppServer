@@ -3,7 +3,8 @@ package com.um5.iwam.g12.chatappserver.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "assignments")
@@ -15,7 +16,10 @@ public class Assignment {
 
     @ManyToOne
     private Classroom classRoom;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date dateCreated;
+    @Temporal(TemporalType.DATE)
     @NotBlank
     private Date dueDate;
     @NotBlank
@@ -31,12 +35,12 @@ public class Assignment {
         dueDate = new Date(System.currentTimeMillis());
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Classroom getClassRoom() {

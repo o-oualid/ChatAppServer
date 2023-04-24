@@ -1,8 +1,6 @@
 package com.um5.iwam.g12.chatappserver.services.security;
 
-import com.um5.iwam.g12.chatappserver.model.UserClassroomKey;
-import com.um5.iwam.g12.chatappserver.repository.UserClassRoomRepository;
-import com.um5.iwam.g12.chatappserver.services.ClassroomService;
+import com.um5.iwam.g12.chatappserver.services.UserClassRoomService;
 import com.um5.iwam.g12.chatappserver.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -10,24 +8,21 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ClassroomSecurityService {
-    private final ClassroomService classroomService;
-    private final UserClassRoomRepository userClassRoomRepository;
+    private final UserClassRoomService userClassRoomService;
     private final UserService userService;
     Authentication authentication;
 
-    public ClassroomSecurityService(ClassroomService classroomService, UserClassRoomRepository userClassRoomRepository, UserService userService) {
-        this.classroomService = classroomService;
-        this.userClassRoomRepository = userClassRoomRepository;
+    public ClassroomSecurityService(UserClassRoomService userClassRoomService, UserService userService) {
+        this.userClassRoomService = userClassRoomService;
         this.userService = userService;
     }
 
 
-    public boolean isMember(Long id) {
+    public boolean isMember(Long classRoomId) {
         this.authentication = SecurityContextHolder.getContext().getAuthentication();
         var user = userService.findByEmail(authentication.getName());
         if (user.isEmpty()) return false;
-        var classroom = userClassRoomRepository.findById(new UserClassroomKey(user.get().getId(), id));
-        return classroom.isPresent();
+        return userClassRoomService.isMemberOfClassroom(classRoomId, user.get().getId());
     }
 
     public boolean isTeacher(Long id) {

@@ -1,5 +1,6 @@
 package com.um5.iwam.g12.chatappserver.services;
 
+import com.um5.iwam.g12.chatappserver.dto.UserCreationDto;
 import com.um5.iwam.g12.chatappserver.dto.UserDto;
 import com.um5.iwam.g12.chatappserver.model.User;
 import com.um5.iwam.g12.chatappserver.repository.UserRepository;
@@ -7,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,13 +34,24 @@ public class UserService {
 
     }
 
-    public UserDto save(User user) {
+    public UserDto create(UserCreationDto user) {
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        return modelMapper.map(repository.save(user), UserDto.class);
+        var userModel = modelMapper.map(user, User.class);
+        return modelMapper.map(repository.save(userModel), UserDto.class);
 
+    }
+
+    public void update(User user) {
+        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        repository.save(user);
     }
 
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    public List<UserDto> findAllByClassroom(long classroomId) {
+        return repository.findAllByUserClassrooms_Classroom_Id(classroomId)
+                .stream().map(user -> modelMapper.map(user, UserDto.class)).toList();
     }
 }

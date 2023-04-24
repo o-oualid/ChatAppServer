@@ -2,7 +2,7 @@ package com.um5.iwam.g12.chatappserver.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 @Entity
 @Table
@@ -17,7 +17,7 @@ public class PostAttachment {
     private String type;
 
     private String url;
-
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     private int downloadCount;
@@ -28,12 +28,12 @@ public class PostAttachment {
     public PostAttachment() {
     }
 
-    public PostAttachment(long id, String name, String type, String url, Date createdAt, Post post) {
+    public PostAttachment(long id, String name, String type, String url, Post post) {
         this.id = id;
         this.name = name;
         this.type = type;
         this.url = url;
-        this.createdAt = createdAt;
+        this.createdAt = new Date(System.currentTimeMillis());
         this.post = post;
     }
 

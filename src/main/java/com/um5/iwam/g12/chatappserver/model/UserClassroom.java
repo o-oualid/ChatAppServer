@@ -2,7 +2,7 @@ package com.um5.iwam.g12.chatappserver.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
 
 
 @Entity
@@ -10,18 +10,21 @@ import java.sql.Date;
 public class UserClassroom {
 
     @EmbeddedId
-    UserClassroomKey id;
+    private UserClassroomKey id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @MapsId("userId")
-    private User user;
 
-    @ManyToOne
+    private User user;
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @MapsId("classroomId")
     private Classroom classroom;
 
-    Date joinedAt;
-    private String role;
+    @Temporal(TemporalType.TIMESTAMP)
+
+    private Date joinedAt;
+    @Enumerated(EnumType.ORDINAL)
+    private UserRole role;
 
     @Column()
     @Enumerated(EnumType.ORDINAL)
@@ -30,12 +33,13 @@ public class UserClassroom {
     public UserClassroom() {
     }
 
-    public UserClassroom(User user, Classroom classroom, Date joinedAt, String role, Status status) {
-        this.user = user;
-        this.classroom = classroom;
-        this.joinedAt = joinedAt;
-        this.role = role;
-        this.status = status;
+    public UserClassroom(Classroom classroom, User user, UserRole role, Status status) {
+        this.id = new UserClassroomKey(user.getId(), classroom.getId());
+        setRole(role);
+        setStatus(status);
+        this.joinedAt = new Date(System.currentTimeMillis());
+        this.user= user;
+        this.classroom= classroom;
     }
 
 
@@ -47,11 +51,11 @@ public class UserClassroom {
         this.joinedAt = joinedAt;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
@@ -70,5 +74,22 @@ public class UserClassroom {
     public void setClassroom(Classroom classroom) {
         this.classroom = classroom;
     }
+
+    public UserClassroomKey getId() {
+        return id;
+    }
+
+    public void setId(UserClassroomKey id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
 }
 

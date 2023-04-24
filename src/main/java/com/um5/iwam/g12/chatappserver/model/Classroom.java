@@ -3,7 +3,7 @@ package com.um5.iwam.g12.chatappserver.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -27,8 +27,10 @@ public class Classroom {
     @Column(length = 100)
     private String backgroundPicture;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
     @OneToMany(fetch = FetchType.LAZY,mappedBy = "classroom")
@@ -44,6 +46,8 @@ public class Classroom {
     public Classroom(long id, String name) {
         this.id = id;
         this.name = name;
+        createdAt=new Date(System.currentTimeMillis());
+        updatedAt=new Date(System.currentTimeMillis());
     }
 
     public long getId() {

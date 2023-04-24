@@ -2,7 +2,8 @@ package com.um5.iwam.g12.chatappserver.model;
 
 import jakarta.persistence.*;
 
-import java.sql.Date;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "comments")
@@ -21,7 +22,10 @@ public class Comment {
 
     private int likes;
 
+    @Temporal(TemporalType.DATE)
     private Date createdAt;
+
+    @Temporal(TemporalType.DATE)
 
     private Date updatedAt;
 
@@ -35,14 +39,16 @@ public class Comment {
         this.sender = sender;
         this.content = content;
         this.post = post;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        createdAt=new Date(System.currentTimeMillis());
+        updatedAt=new Date(System.currentTimeMillis());
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getSender() {

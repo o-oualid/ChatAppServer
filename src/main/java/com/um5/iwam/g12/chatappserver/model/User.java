@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -33,8 +33,8 @@ public class User {
     private String password;
 
     @Enumerated(EnumType.ORDINAL)
-    private UserType type;
-
+    private UserRole type;
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     @Column(length = 100)
@@ -117,11 +117,11 @@ public class User {
         isEmailVerified = emailVerified;
     }
 
-    public UserType getType() {
+    public UserRole getType() {
         return type;
     }
 
-    public void setType(UserType type) {
+    public void setType(UserRole type) {
         this.type = type;
     }
 
@@ -169,5 +169,7 @@ public class User {
     public void setUserClassrooms(List<UserClassroom> userClassrooms) {
         this.userClassrooms = userClassrooms;
     }
+
+
 }
 

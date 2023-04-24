@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/classrooms")
 public class ClassroomController {
@@ -24,8 +26,8 @@ public class ClassroomController {
 
     @PostMapping
     @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
-    public ResponseEntity<ClassDto> create(@RequestBody ClassDto classroom) {
-        return ResponseEntity.ok(service.save(classroom));
+    public ResponseEntity<ClassDto> create(Principal principal, @RequestBody ClassDto classroom) {
+        return ResponseEntity.ok(service.create(classroom, principal.getName()));
     }
 
     @PutMapping("/{id}")

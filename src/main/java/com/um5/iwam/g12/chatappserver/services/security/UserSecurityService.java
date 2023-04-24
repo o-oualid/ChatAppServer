@@ -19,6 +19,7 @@ public class UserSecurityService {
     public boolean is(Long id) {
         this.authentication = SecurityContextHolder.getContext().getAuthentication();
         var user = userService.findByEmail(authentication.getName());
+        authentication.getPrincipal();
         return user.map(value -> value.getId().equals(id)).orElse(false);
     }
 }

@@ -3,7 +3,7 @@ package com.um5.iwam.g12.chatappserver.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -26,8 +26,9 @@ public class Post {
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
     private List<Comment> comments;
 
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-
+    @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
     private boolean isPinned;
@@ -47,14 +48,16 @@ public class Post {
         this.sender = sender;
         this.classRoom = classRoom;
         this.content = content;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+        createdAt = new Date(System.currentTimeMillis());
+        updatedAt = new Date(System.currentTimeMillis());
     }
 
     public Long getId() {
         return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public User getSender() {
