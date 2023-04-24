@@ -1,6 +1,7 @@
 package com.um5.iwam.g12.chatappserver.controllers;
 
 import com.um5.iwam.g12.chatappserver.dto.ClassDto;
+import com.um5.iwam.g12.chatappserver.dto.InviteDto;
 import com.um5.iwam.g12.chatappserver.services.ClassroomService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -40,6 +41,13 @@ public class ClassroomController {
     @PreAuthorize("hasAuthority('SCOPE_TEACHER')")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         service.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/invite/{classroomId}")
+    @PreAuthorize("@classroomSecurityService.isTeacher(#invite.classroomId)")
+    public ResponseEntity<Void> invite(@RequestBody InviteDto invite) {
+        service.inviteUser(invite.getUserEmail(), invite.getClassroomId());
         return ResponseEntity.noContent().build();
     }
 }

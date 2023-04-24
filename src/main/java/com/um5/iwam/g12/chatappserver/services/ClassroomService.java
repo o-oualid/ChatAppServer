@@ -3,6 +3,7 @@ package com.um5.iwam.g12.chatappserver.services;
 
 import com.um5.iwam.g12.chatappserver.dto.ClassDto;
 import com.um5.iwam.g12.chatappserver.model.Classroom;
+import com.um5.iwam.g12.chatappserver.model.Status;
 import com.um5.iwam.g12.chatappserver.model.UserRole;
 import com.um5.iwam.g12.chatappserver.repository.ClassroomRepository;
 import org.modelmapper.ModelMapper;
@@ -26,7 +27,7 @@ public class ClassroomService {
 
     public ClassDto create(ClassDto classroom, String ownerEmail) {
         Classroom classroomRepo = repository.save(modelMapper.map(classroom, Classroom.class));
-        userClassRoomService.AddUser(classroomRepo, ownerEmail, UserRole.TEACHER);
+        userClassRoomService.AddUser(classroomRepo, ownerEmail, UserRole.TEACHER, Status.ACTIVE);
         return modelMapper.map(classroomRepo, ClassDto.class);
     }
 
@@ -43,4 +44,7 @@ public class ClassroomService {
     }
 
 
+    public void inviteUser(String userEmail, long classroomId) {
+        repository.findById(classroomId).ifPresent(classroom -> userClassRoomService.AddUser(classroom, userEmail, UserRole.STUDENT, Status.INVITED));
+    }
 }

@@ -15,15 +15,19 @@ public class UserClassRoomService {
         this.userRepository = userRepository;
     }
 
-    public void AddUser(Classroom classroom, String userEmail, UserRole role) {
-        userRepository.findByEmail(userEmail).ifPresent(user -> AddUser(classroom, user, role));
+    public void AddUser(Classroom classroom, String userEmail, UserRole role, Status status) {
+        userRepository.findByEmail(userEmail).ifPresent(user -> AddUser(classroom, user, role, status));
     }
 
-    public void AddUser(Classroom classRoom, User user, UserRole role) {
-        userClassRoomRepository.save(new UserClassroom(classRoom, user, role, Status.ACTIVE));
+    public void AddUser(Classroom classRoom, User user, UserRole role, Status status) {
+        userClassRoomRepository.save(new UserClassroom(classRoom, user, role, status));
     }
 
     public boolean isMemberOfClassroom(Long classRoomId, Long id) {
         return userClassRoomRepository.findById(new UserClassroomKey(id, classRoomId)).isPresent();
+    }
+
+    public boolean isTeacherOfClassroom(Long classRoomId, Long id) {
+        return userClassRoomRepository.findByIdAndRole(new UserClassroomKey(id, classRoomId), UserRole.TEACHER).isPresent();
     }
 }

@@ -25,7 +25,10 @@ public class ClassroomSecurityService {
         return userClassRoomService.isMemberOfClassroom(classRoomId, user.get().getId());
     }
 
-    public boolean isTeacher(Long id) {
-        return false;
+    public boolean isTeacher(Long classRoomId) {
+        this.authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = userService.findByEmail(authentication.getName());
+        if (user.isEmpty()) return false;
+        return userClassRoomService.isTeacherOfClassroom(classRoomId, user.get().getId());
     }
 }
