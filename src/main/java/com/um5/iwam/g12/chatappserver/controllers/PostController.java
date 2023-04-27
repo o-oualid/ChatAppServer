@@ -1,7 +1,7 @@
 package com.um5.iwam.g12.chatappserver.controllers;
 
-import com.um5.iwam.g12.chatappserver.model.Post;
-import com.um5.iwam.g12.chatappserver.repository.PostRepository;
+import com.um5.iwam.g12.chatappserver.dto.PostDto;
+import com.um5.iwam.g12.chatappserver.services.PostService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,32 +11,32 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/posts")
 public class PostController {
 
-    private final PostRepository repository;
+    private final PostService service;
 
-    public PostController(PostRepository repository) {
-        this.repository = repository;
+    public PostController(PostService service) {
+        this.service = service;
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Post> getPostById(@PathVariable long id) {
-        return ResponseEntity.of(repository.findById(id));
+    ResponseEntity<PostDto> getPostById(@PathVariable long id) {
+        return ResponseEntity.ofNullable(service.find(id));
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Post> create(@Valid @RequestBody Post post) {
-        return ResponseEntity.ok(repository.save(post));
+    public ResponseEntity<PostDto> create(@Valid @RequestBody PostDto post) {
+        return ResponseEntity.ok(service.create(post));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-        repository.deleteById(id);
+        service.delete(id);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Post> update(@RequestBody Post post, @PathVariable long id) {
-        return ResponseEntity.ok(repository.save(post));
+    public ResponseEntity<PostDto> update(@RequestBody PostDto post, @PathVariable long id) {
+        return ResponseEntity.ok(service.update(post));
     }
 
 }

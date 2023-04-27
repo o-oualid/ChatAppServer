@@ -30,8 +30,7 @@ public class UserService {
     }
 
     public UserDto findById(long id) {
-        var user = repository.findById(id);
-        return user.map(value -> modelMapper.map(value, UserDto.class)).orElse(null);
+        return repository.findById(id).map(value -> modelMapper.map(value, UserDto.class)).orElse(null);
 
     }
 
