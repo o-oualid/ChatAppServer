@@ -1,5 +1,6 @@
 package com.um5.iwam.g12.chatappserver.controllers;
 
+import com.um5.iwam.g12.chatappserver.dto.AuthDto;
 import com.um5.iwam.g12.chatappserver.dto.AuthenticationRequest;
 import com.um5.iwam.g12.chatappserver.dto.UserCreationDto;
 import com.um5.iwam.g12.chatappserver.dto.UserDto;
@@ -30,14 +31,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String token(@RequestBody AuthenticationRequest userLogin) {
+    public ResponseEntity<AuthDto> token(@RequestBody AuthenticationRequest userLogin) {
         var user = new UsernamePasswordAuthenticationToken(userLogin.username(), userLogin.password());
 
         try {
             Authentication authentication = authenticationManager.authenticate(user);
-            return tokenService.generateToken(authentication);
+            return ResponseEntity.ok(new AuthDto(tokenService.generateToken(authentication)));
         } catch (AuthenticationException e) {
-            return "auth error";
+            return ResponseEntity.notFound().build();
 
         }
     }

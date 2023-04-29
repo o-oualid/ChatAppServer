@@ -59,7 +59,7 @@ public class ClassroomController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/user")
+    @GetMapping()
     public ResponseEntity<List<ClassroomDto>> findByUser(Principal principal) {
         return ResponseEntity.ok(service.findByUser(principal.getName()));
     }
