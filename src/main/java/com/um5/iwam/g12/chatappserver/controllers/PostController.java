@@ -41,4 +41,9 @@ public class PostController {
         return ResponseEntity.ok(service.update(post));
     }
 
+    @GetMapping("/classroom/{id}")
+    public ResponseEntity<Iterable<PostDto>> getPostsByClassroom(@PathVariable long id) {
+        return ResponseEntity.ok(service.findByClassroom(id));
+    }
+
 }

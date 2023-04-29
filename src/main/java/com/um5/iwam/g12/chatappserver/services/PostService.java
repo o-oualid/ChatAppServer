@@ -7,6 +7,8 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
+import java.util.List;
+import java.util.stream.StreamSupport;
 
 @Service
 public class PostService {
@@ -42,4 +44,7 @@ public class PostService {
         return modelMapper.map(postRepository.save(modelMapper.map(post, Post.class)), PostDto.class);
     }
 
+    public List<PostDto> findByClassroom(long id) {
+        return StreamSupport.stream(postRepository.findPostsByClassroom_Id(id).spliterator(), false).map(post -> modelMapper.map(post, PostDto.class)).toList();
+    }
 }
