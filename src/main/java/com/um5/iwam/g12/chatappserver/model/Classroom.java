@@ -33,7 +33,7 @@ public class Classroom {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    @OneToMany(fetch = FetchType.LAZY,mappedBy = "classroom")
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "classroom")
     private List<UserClassroom> userClassrooms;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "classroom")

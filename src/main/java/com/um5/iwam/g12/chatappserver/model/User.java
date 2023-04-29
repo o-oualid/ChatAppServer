@@ -46,7 +46,7 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender")
     private List<Post> posts;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.EAGER)
     private List<UserClassroom> userClassrooms;
 
     public User() {
