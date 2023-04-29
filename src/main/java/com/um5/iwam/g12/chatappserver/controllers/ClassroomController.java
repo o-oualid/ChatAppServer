@@ -63,4 +63,9 @@ public class ClassroomController {
     public ResponseEntity<List<ClassroomDto>> findByUser(Principal principal) {
         return ResponseEntity.ok(service.findByUser(principal.getName()));
     }
+
+    @GetMapping("/invites")
+    public  ResponseEntity<List<ClassroomDto>> invites(Principal principal) {
+        return ResponseEntity.ok(service.invites(principal.getName()));
+    }
 }

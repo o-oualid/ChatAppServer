@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+
 @RestController
 @RequestMapping("/posts")
 public class PostController {
@@ -24,8 +26,8 @@ public class PostController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<PostDto> create(@Valid @RequestBody PostDto post) {
-        return ResponseEntity.ok(service.create(post));
+    public ResponseEntity<PostDto> create(Principal principal, @Valid @RequestBody PostDto post) {
+        return ResponseEntity.ofNullable(service.create(principal, post));
     }
 
     @DeleteMapping("/{id}")

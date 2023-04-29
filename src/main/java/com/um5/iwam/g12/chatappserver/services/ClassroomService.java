@@ -56,8 +56,14 @@ public class ClassroomService {
 
     public List<ClassroomDto> findByUser(String email) {
         var user = userClassRoomService.findByEmail(email);
-        return user.map(value -> StreamSupport.stream(repository.findClassroomsByUserClassrooms_User_Id(value.getId()).spliterator(), false)
+        return user.map(value -> StreamSupport.stream(repository.findClassroomsByUserClassrooms_User_IdAndUserClassrooms_Status(value.getId(), Status.ACTIVE).spliterator(), false)
                 .map(classroom -> modelMapper.map(classroom, ClassroomDto.class)).toList()).orElse(null);
 
+    }
+
+    public List<ClassroomDto> invites(String email) {
+        var user = userClassRoomService.findByEmail(email);
+        return user.map(value -> StreamSupport.stream(repository.findClassroomsByUserClassrooms_User_IdAndUserClassrooms_Status(value.getId(), Status.INVITED).spliterator(), false)
+                .map(classroom -> modelMapper.map(classroom, ClassroomDto.class)).toList()).orElse(null);
     }
 }
