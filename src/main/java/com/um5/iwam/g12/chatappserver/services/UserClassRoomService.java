@@ -48,4 +48,8 @@ public class UserClassRoomService {
     public Optional<User> findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
+
+    public boolean hasStatus(Long classRoomId, Long id, Status status) {
+        return userClassRoomRepository.findByIdAndStatus(new UserClassroomKey(id, classRoomId), status).isPresent();
+    }
 }

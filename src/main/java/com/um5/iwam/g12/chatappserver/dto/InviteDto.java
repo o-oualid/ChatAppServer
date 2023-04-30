@@ -4,6 +4,14 @@ public class InviteDto {
     private String userEmail;
     private long classroomId;
 
+    public InviteDto(String userEmail, long classroomId) {
+        this.userEmail = userEmail;
+        this.classroomId = classroomId;
+    }
+
+    public InviteDto() {
+    }
+
     public String getUserEmail() {
         return userEmail;
     }

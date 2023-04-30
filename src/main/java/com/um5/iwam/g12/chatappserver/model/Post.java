@@ -16,11 +16,7 @@ public class Post {
 
     @NotBlank
     private String content;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Classroom classRoom;
-
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private User sender;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "post")
@@ -33,7 +29,7 @@ public class Post {
 
     private boolean isPinned;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     private Classroom classroom;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "post")
@@ -44,9 +40,9 @@ public class Post {
         super();
     }
 
-    public Post(User sender, Classroom classRoom, List<Comment> comments, String content) {
+    public Post(User sender, Classroom classroom, List<Comment> comments, String content) {
         this.sender = sender;
-        this.classRoom = classRoom;
+        this.classroom = classroom;
         this.content = content;
         createdAt = new Date(System.currentTimeMillis());
         updatedAt = new Date(System.currentTimeMillis());
@@ -69,11 +65,11 @@ public class Post {
     }
 
     public Classroom getClassRoom() {
-        return classRoom;
+        return classroom;
     }
 
     public void setClassRoom(Classroom classRoom) {
-        this.classRoom = classRoom;
+        this.classroom = classRoom;
     }
 
     public List<Comment> getComments() {

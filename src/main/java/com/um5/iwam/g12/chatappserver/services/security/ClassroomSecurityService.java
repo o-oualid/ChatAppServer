@@ -1,5 +1,6 @@
 package com.um5.iwam.g12.chatappserver.services.security;
 
+import com.um5.iwam.g12.chatappserver.model.Status;
 import com.um5.iwam.g12.chatappserver.model.UserRole;
 import com.um5.iwam.g12.chatappserver.services.UserClassRoomService;
 import com.um5.iwam.g12.chatappserver.services.UserService;
@@ -33,4 +34,10 @@ public class ClassroomSecurityService {
         return userClassRoomService.hasRole(classRoomId, user.get().getId(), role);
     }
 
+    public boolean hasStatus(Long classRoomId, Status status) {
+        this.authentication = SecurityContextHolder.getContext().getAuthentication();
+        var user = userService.findByEmail(authentication.getName());
+        if (user.isEmpty()) return false;
+        return userClassRoomService.hasStatus(classRoomId, user.get().getId(), status);
+    }
 }

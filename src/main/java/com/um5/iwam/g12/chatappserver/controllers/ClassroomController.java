@@ -53,7 +53,7 @@ public class ClassroomController {
     }
 
     @PostMapping("/join/{id}")
-    @PreAuthorize("@classroomSecurityService.hasRole(#id, 'invited')")
+    @PreAuthorize("@classroomSecurityService.hasStatus(#id, 'INVITED')")
     public ResponseEntity<Void> join(Principal principal, @PathVariable long id) {
         service.join(principal.getName(), id);
         return ResponseEntity.noContent().build();

@@ -9,8 +9,8 @@ public class PostDto {
     private long id;
     @NotBlank
     private String content;
-    private long classroom;
-    private long sender;
+    private long classroom_id;
+    private long sender_id;
     private Date createdAt;
     private Date updatedAt;
     private boolean isPinned;
@@ -34,20 +34,21 @@ public class PostDto {
         this.content = content;
     }
 
-    public long getClassroom() {
-        return classroom;
+
+    public long getClassroom_id() {
+        return classroom_id;
     }
 
-    public void setClassroom(long classroom) {
-        this.classroom = classroom;
+    public void setClassroom_id(long classroom_id) {
+        this.classroom_id = classroom_id;
     }
 
-    public long getSender() {
-        return sender;
+    public long getSender_id() {
+        return sender_id;
     }
 
-    public void setSender(long sender) {
-        this.sender = sender;
+    public void setSender_id(long sender_id) {
+        this.sender_id = sender_id;
     }
 
     public Date getCreatedAt() {
