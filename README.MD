@@ -1,5 +1,5 @@
 # Class Organiser
-The server side of a class management app
+The server side of a class management app made with Java and Spring boot
 
 ## How to deploy
 
