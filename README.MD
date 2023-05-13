@@ -1,4 +1,5 @@
 # Class Organiser
+The server side of a class management app
 
 ## How to deploy
 
